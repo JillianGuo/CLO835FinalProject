@@ -23,23 +23,21 @@ jobs:
         AWS_REGION: us-east-1
 
     - name: Build and push MYSQL DB image to Amazon ECR
+      working-directory: ./db
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: clo835-final-db
         IMAGE_TAG: v1.0
       run: |
-        # Docker build - mysql image
-        working-directory: ./db
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
     - name: Build and push Flask webapp image to Amazon ECR
+      working-directory: ./app
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: clo835-final-app
         IMAGE_TAG: v1.0
       run: |
-        # Docker build - webapp image
-        working-directory: ./app
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG    
