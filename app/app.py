@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 
 # Connect to database
-DBHOST = os.environ.get("DBHOST") or "127.0.0.1"
+DBHOST = os.environ.get("DBHOST") or "localhost"
 DBUSER = os.environ.get("DBUSER") or "root"
 DBPWD = os.environ.get("DBPWD") or "pw"
 DATABASE = os.environ.get("DATABASE") or "employees"
@@ -30,16 +30,13 @@ table = 'employee'
 # Resolve image path
 from flask import send_from_directory
 
-EXTERNAL_IMAGE_DIR = os.environ.get("IMAGE_DIR") or "bg_images"
-IMAGE_FROM_ENV = os.environ.get("BG_IMAGE") or "bg1.jpg"
-IMAGE = IMAGE_FROM_ENV
+IMAGE = os.environ.get("BACKGROUND_IMAGE") or "bg2.jpg"
 
 def resolve_image_path(image_name):
-    return url_for('serve_external_image', filename=image_name)
-    
-@app.route("/external-images/<path:filename>")
-def serve_external_image(filename):
-    return send_from_directory(EXTERNAL_IMAGE_DIR, filename)
+    if os.environ.get("S3_BASE_URL"):
+        s3_base_url = os.environ.get("S3_BASE_URL")
+        return f"{s3_base_url}/{image_name}"
+    return url_for('static', filename=image_name)
 
 
 # APIs
@@ -125,9 +122,6 @@ if __name__ == '__main__':
     if args.image:
         print("Image name from command line argument = " + args.image)
         IMAGE = args.image
-    elif IMAGE_FROM_ENV:
-        print("An image was set through environment variable - " + IMAGE_FROM_ENV)
-        IMAGE = IMAGE_FROM_ENV
     else:
         print("No image was set.")
 

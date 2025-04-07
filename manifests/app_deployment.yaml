@@ -32,5 +32,8 @@ spec:
           value: "root"
         - name: DBPWD
           value: "pw"
+        envFrom:
+        - configMapRef:
+            name: web-assets
       imagePullSecrets:
         - name: creds-final
