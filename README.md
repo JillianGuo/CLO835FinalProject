@@ -1,3 +1,5 @@
 # CLO835FinalProject
 
-## 1. Flask App with external background images
+## 1. MySQL database
+
+## 2. Flask App with external background images

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clo835-final-app
+  namespace: test
+  labels:
+    appname: app-deployment
+    component: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      appname: app-deployment
+      component: frontend
+  template:
+    metadata:
+      labels:
+        appname: app-deployment
+        component: frontend
+    spec:
+      containers:
+      - name: my-app
+        image: 103848042406.dkr.ecr.us-east-1.amazonaws.com/my_app
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DBHOST
+          value: "mysql-db"
+        - name: DBPORT
+          value: "3306"
+        - name: DBUSER
+          value: "root"
+        - name: DBPWD
+          value: "pw"
+      imagePullSecrets:
+        - name: creds-final

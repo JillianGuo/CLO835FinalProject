@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-svc
+  namespace: test
+  labels:
+    appname: app-deployment
+    component: frontend
+spec:
+  type: NodePort
+  ports:
+  - port: 30000
+    targetPort: 8080
+    nodePort: 30000
+  selector:
+    appname: app-deployment
+    component: frontend

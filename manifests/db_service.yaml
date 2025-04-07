@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-db
+  namespace: test
+  labels:
+    appname: db-deployment
+    component: backend
+spec:
+  ports:
+  - name: mysql
+    protocol: TCP
+    port: 3306
+    targetPort: 3306
+  selector:
+    appname: db-deployment
+    component: backend
