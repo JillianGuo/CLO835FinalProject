@@ -29,6 +29,25 @@ spec:
         envFrom:
         - configMapRef:
             name: app-config
+        - secretRef:
+            name: aws-credentials
+        env:
+        - name: aws_access_key_id
+          valueFrom:
+            secretKeyRef:
+              name: aws-credentials
+              key: AWS_ACCESS_KEY_ID
+        - name: aws_secret_access_key
+          valueFrom:
+            secretKeyRef:
+              name: aws-credentials
+              key: AWS_SECRET_ACCESS_KEY
+        - name: aws_session_token
+          valueFrom:
+            secretKeyRef:
+              name: aws-credentials
+              key: AWS_SESSION_TOKEN
+
       imagePullSecrets:
         - name: creds-final
       volumes:

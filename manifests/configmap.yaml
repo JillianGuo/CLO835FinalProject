@@ -12,7 +12,3 @@ data:
   BUCKET_NAME: "clo835-bgimages"
   IMAGE: "bg1.jpg"
   STATIC_DIR: "static"  
-
-  # S3_BASE_URL: "https://clo835-bgimages.s3.us-east-1.amazonaws.com"
-  # BG_IMAGE_1: "bg1.jpg"
-  # BG_IMAGE_2: "bg2.jpg"
