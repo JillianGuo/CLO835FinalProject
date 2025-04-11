@@ -22,7 +22,7 @@ spec:
       - name: my-app
         image: 103848042406.dkr.ecr.us-east-1.amazonaws.com/my_app
         ports:
-        - containerPort: 8080
+        - containerPort: 81
         volumeMounts:
         - name: static-volume
           mountPath: /app/static
@@ -47,7 +47,16 @@ spec:
             secretKeyRef:
               name: aws-credentials
               key: AWS_SESSION_TOKEN
-
+        - name: DBUSER
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DBUSER
+        - name: DBPWD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DBPWD
       imagePullSecrets:
         - name: creds-final
       volumes:

@@ -5,10 +5,11 @@ metadata:
   namespace: final
 data:
   DBHOST: "mysql-db"
-  DBUSER: "root"
-  DBPWD: "pw"
   DATABASE: "employees"
   DBPORT: "3306"
   BUCKET_NAME: "clo835-bgimages"
   IMAGE: "bg1.jpg"
   STATIC_DIR: "static"  
+
+  GROUP_NAME: "Cloud 11"
+  GROUP_SLOGAN: "Building the Future, One Cloud at a Time"

@@ -36,7 +36,8 @@ STATIC_DIR = os.getenv("STATIC_DIR", "static")
 # Download the image from S3 bucket
 download_pic(IMAGE, BUCKET_NAME, STATIC_DIR)
 
-
+GROUP_NAME = os.getenv("GROUP_NAME", "Group 11")
+GROUP_SLOGAN = os.getenv("GROUP_SLOGAN", "Excellent Cloud Solutions")
 
 
 # APIs
@@ -44,13 +45,17 @@ download_pic(IMAGE, BUCKET_NAME, STATIC_DIR)
 def home():
     image_path = url_for('static', filename=IMAGE)
     logging.info(f"Background image loaded from local path: {image_path}")
-    return render_template('addemp.html', image=image_path)
+    return render_template('addemp.html', image=image_path,
+                           group_name=GROUP_NAME, group_slogan=GROUP_SLOGAN)
+
 
 @app.route("/about", methods=['GET','POST'])
 def about():
     image_path = url_for('static', filename=IMAGE)
     logging.info(f"Background image loaded from local path: {image_path}")
-    return render_template('about.html', image=image_path)
+    return render_template('about.html', image=image_path, 
+                           group_name=GROUP_NAME, group_slogan=GROUP_SLOGAN)
+
     
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
@@ -76,13 +81,16 @@ def AddEmp():
     print("all modification done...")
     image_path = url_for('static', filename=IMAGE)
     logging.info(f"Background image loaded from local path: {image_path}")
-    return render_template('addempoutput.html', name=emp_name, image=image_path)
+    return render_template('addempoutput.html', name=emp_name, image=image_path, 
+                           group_name=GROUP_NAME, group_slogan=GROUP_SLOGAN)
+
 
 @app.route("/getemp", methods=['GET', 'POST'])
 def GetEmp():
     image_path = url_for('static', filename=IMAGE)
     logging.info(f"Background image loaded from local path: {image_path}")
-    return render_template("getemp.html", image=image_path)
+    return render_template("getemp.html", image=image_path, 
+                           group_name=GROUP_NAME, group_slogan=GROUP_SLOGAN)
 
 
 @app.route("/fetchdata", methods=['GET','POST'])
@@ -114,9 +122,11 @@ def FetchData():
     logging.info(f"Background image loaded from local path: {image_path}")
     return render_template("getempoutput.html", id=output["emp_id"], fname=output["first_name"],
                            lname=output["last_name"], interest=output["primary_skills"], 
-                           location=output["location"], image=image_path)
+                           location=output["location"], image=image_path, 
+                           group_name=GROUP_NAME, group_slogan=GROUP_SLOGAN)
+
 
 
 if __name__ == '__main__':
     
-    app.run(host='0.0.0.0',port=8080,debug=True)
+    app.run(host='0.0.0.0',port=81,debug=True)

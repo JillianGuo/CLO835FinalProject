@@ -35,6 +35,13 @@ k apply -f db_deployment.yaml
 k apply -f db_service.yaml
 k apply -f pvc.yaml
 k apply -f configmap.yaml 
+k apply -f db_secret.yaml
+k apply -f aws_secret.yaml
 k apply -f app_deployment.yaml
 k apply -f app_service.yaml
+```
+
+Verify background image log entries
+```
+k logs <pod-name> -n final
 ```
