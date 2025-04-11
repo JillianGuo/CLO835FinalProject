@@ -3,6 +3,9 @@ from pymysql import connections
 import os
 from get_pic import download_pic
 
+import logging
+logging.basicConfig(level=logging.INFO)  # Ensure logging is configured
+
 
 app = Flask(__name__)
 
@@ -34,15 +37,19 @@ STATIC_DIR = os.getenv("STATIC_DIR", "static")
 download_pic(IMAGE, BUCKET_NAME, STATIC_DIR)
 
 
+
+
 # APIs
 @app.route("/", methods=['GET', 'POST'])
 def home():
     image_path = url_for('static', filename=IMAGE)
+    logging.info(f"Background image loaded from local path: {image_path}")
     return render_template('addemp.html', image=image_path)
 
 @app.route("/about", methods=['GET','POST'])
 def about():
     image_path = url_for('static', filename=IMAGE)
+    logging.info(f"Background image loaded from local path: {image_path}")
     return render_template('about.html', image=image_path)
     
 @app.route("/addemp", methods=['POST'])
@@ -68,11 +75,13 @@ def AddEmp():
 
     print("all modification done...")
     image_path = url_for('static', filename=IMAGE)
+    logging.info(f"Background image loaded from local path: {image_path}")
     return render_template('addempoutput.html', name=emp_name, image=image_path)
 
 @app.route("/getemp", methods=['GET', 'POST'])
 def GetEmp():
     image_path = url_for('static', filename=IMAGE)
+    logging.info(f"Background image loaded from local path: {image_path}")
     return render_template("getemp.html", image=image_path)
 
 
@@ -102,6 +111,7 @@ def FetchData():
         cursor.close()
 
     image_path = url_for('static', filename=IMAGE)
+    logging.info(f"Background image loaded from local path: {image_path}")
     return render_template("getempoutput.html", id=output["emp_id"], fname=output["first_name"],
                            lname=output["last_name"], interest=output["primary_skills"], 
                            location=output["location"], image=image_path)
