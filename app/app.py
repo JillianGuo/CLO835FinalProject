@@ -1,18 +1,18 @@
 from flask import Flask, render_template, request, url_for
 from pymysql import connections
 import os
-import argparse
+from get_pic import download_pic
 
 
 app = Flask(__name__)
 
 
 # Connect to database
-DBHOST = os.environ.get("DBHOST") or "localhost"
-DBUSER = os.environ.get("DBUSER") or "root"
-DBPWD = os.environ.get("DBPWD") or "pw"
-DATABASE = os.environ.get("DATABASE") or "employees"
-DBPORT = int(os.environ.get("DBPORT")) if os.environ.get("DBPORT") else 3306
+DBHOST = os.getenv("DBHOST", "localhost")
+DBUSER = os.getenv("DBUSER", "root")
+DBPWD = os.getenv("DBPWD", "pw")
+DATABASE = os.getenv("DATABASE", "employees")
+DBPORT = int(os.getenv("DBPORT", 3306))
 
 # Create a connection to the MySQL database
 db_conn = connections.Connection(
@@ -27,27 +27,22 @@ output = {}
 table = 'employee'
 
 
-# Resolve image path
-from flask import send_from_directory
-
-IMAGE = os.environ.get("BACKGROUND_IMAGE") or "bg2.jpg"
-
-def resolve_image_path(image_name):
-    if os.environ.get("S3_BASE_URL"):
-        s3_base_url = os.environ.get("S3_BASE_URL")
-        return f"{s3_base_url}/{image_name}"
-    return url_for('static', filename=image_name)
+BUCKET_NAME = os.getenv("BUCKET_NAME", "clo835-bgimages")
+IMAGE = os.getenv("IMAGE", "bg2.jpg")
+STATIC_DIR = os.getenv("STATIC_DIR", "static")
+# Download the image from S3 bucket
+download_pic(IMAGE, BUCKET_NAME, STATIC_DIR)
 
 
 # APIs
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    image_path = resolve_image_path(IMAGE)
+    image_path = url_for('static', filename=IMAGE)
     return render_template('addemp.html', image=image_path)
 
 @app.route("/about", methods=['GET','POST'])
 def about():
-    image_path = resolve_image_path(IMAGE)
+    image_path = url_for('static', filename=IMAGE)
     return render_template('about.html', image=image_path)
     
 @app.route("/addemp", methods=['POST'])
@@ -72,12 +67,12 @@ def AddEmp():
         cursor.close()
 
     print("all modification done...")
-    image_path = resolve_image_path(IMAGE)
+    image_path = url_for('static', filename=IMAGE)
     return render_template('addempoutput.html', name=emp_name, image=image_path)
 
 @app.route("/getemp", methods=['GET', 'POST'])
 def GetEmp():
-    image_path = resolve_image_path(IMAGE)
+    image_path = url_for('static', filename=IMAGE)
     return render_template("getemp.html", image=image_path)
 
 
@@ -106,7 +101,7 @@ def FetchData():
     finally:
         cursor.close()
 
-    image_path = resolve_image_path(IMAGE)
+    image_path = url_for('static', filename=IMAGE)
     return render_template("getempoutput.html", id=output["emp_id"], fname=output["first_name"],
                            lname=output["last_name"], interest=output["primary_skills"], 
                            location=output["location"], image=image_path)
@@ -114,16 +109,4 @@ def FetchData():
 
 if __name__ == '__main__':
     
-    # Check for Command Line Parameters for color
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--image', required=False)
-    args = parser.parse_args()
-
-    if args.image:
-        print("Image name from command line argument = " + args.image)
-        IMAGE = args.image
-    else:
-        print("No image was set.")
-
-
     app.run(host='0.0.0.0',port=8080,debug=True)
