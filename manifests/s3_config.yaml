@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: web-assets
-  namespace: test
-data:
-  S3_BASE_URL: "https://clo835-bgimages.s3.us-east-1.amazonaws.com"
-  BACKGROUND_IMAGE: "bg1.jpg"
-  BACKGROUND_IMAGE_SECONDARY: "bg2.jpg"

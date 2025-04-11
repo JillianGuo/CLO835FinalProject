@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: clo835-final-db
-  namespace: test
+  namespace: final
   labels:
     appname: db-deployment
     component: backend

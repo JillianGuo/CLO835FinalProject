@@ -23,3 +23,6 @@ __pycache__/
 
 # kind config
 kind.yaml
+
+# static
+static/

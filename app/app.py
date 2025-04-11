@@ -28,7 +28,7 @@ table = 'employee'
 
 
 BUCKET_NAME = os.getenv("BUCKET_NAME", "clo835-bgimages")
-IMAGE = os.getenv("IMAGE", "bg2.jpg")
+IMAGE = os.getenv("IMAGE", "bg1.jpg")
 STATIC_DIR = os.getenv("STATIC_DIR", "static")
 # Download the image from S3 bucket
 download_pic(IMAGE, BUCKET_NAME, STATIC_DIR)
