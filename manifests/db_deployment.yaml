@@ -23,8 +23,15 @@ spec:
         image: 103848042406.dkr.ecr.us-east-1.amazonaws.com/my_db:latest
         ports:
         - containerPort: 3306
+        volumeMounts:
+        - name: db-storage
+          mountPath: /var/lib/mysql
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: "pw"
       imagePullSecrets:
-        - name: creds-final
+        - name: ecr-credentials
+      volumes:
+      - name: db-storage
+        persistentVolumeClaim:
+          claimName: db-pvc

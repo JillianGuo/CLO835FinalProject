@@ -25,18 +25,19 @@ docker run --name app --network mynet -d -e DBHOST=<mysql-ip> -p 8080:8080 my_ap
 
 # Deployment
 
-## Using kind cluster
+## In kind cluster
 
 ```
 kind create cluster --config kind.yaml
 k create ns final
-k create secret generic creds-final --from-file=.dockerconfigjson=/home/ec2-user/.docker/config.json --type=kubernetes.io/dockerconfigjson -n final
+k create secret generic ecr-credentials --from-file=.dockerconfigjson=/home/ec2-user/.docker/config.json --type=kubernetes.io/dockerconfigjson -n final
+k apply -f pvc.yaml
 k apply -f db_deployment.yaml
 k apply -f db_service.yaml
-k apply -f pvc.yaml
 k apply -f configmap.yaml 
-k apply -f db_secret.yaml
-k apply -f aws_secret.yaml
+k apply -f secret_db.yaml
+k apply -f secret_aws.yaml
+k apply -f secret_ecr.yaml
 k apply -f app_deployment.yaml
 k apply -f app_service.yaml
 ```
@@ -45,3 +46,5 @@ Verify background image log entries
 ```
 k logs <pod-name> -n final
 ```
+
+## In Amazon EKS
