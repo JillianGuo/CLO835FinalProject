@@ -116,3 +116,4 @@ k logs <pod-name> -n final
 eksctl delete cluster --region=us-east-1 --name=eks-cluster
 ```
 
+For testing
