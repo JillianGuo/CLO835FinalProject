@@ -24,5 +24,8 @@ __pycache__/
 # kind config
 kind.yaml
 
+# EKS config
+# eks_config.yaml
+
 # static
 static/

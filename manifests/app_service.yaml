@@ -7,11 +7,10 @@ metadata:
     appname: app-deployment
     component: frontend
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
-  - port: 30000
+  - port: 80
     targetPort: 81
-    nodePort: 30000
   selector:
     appname: app-deployment
     component: frontend
